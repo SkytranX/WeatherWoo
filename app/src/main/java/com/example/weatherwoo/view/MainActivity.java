@@ -1,8 +1,10 @@
-package com.example.weatherwoo;
+package com.example.weatherwoo.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.weatherwoo.R;
 
 public class MainActivity extends AppCompatActivity {
 
