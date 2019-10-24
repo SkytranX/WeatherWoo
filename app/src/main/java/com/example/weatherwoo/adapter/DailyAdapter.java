@@ -14,67 +14,67 @@ import com.bumptech.glide.Glide;
 import com.example.weatherwoo.R;
 import com.example.weatherwoo.model.Daily;
 import com.example.weatherwoo.model.DailyDatum;
+import com.google.android.material.textview.MaterialTextView;
 
 import java.util.List;
 
-public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.weatherViewHolder> {
-    private List<DailyDatum> weatherUrls_D;
+public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHolder> {
+
     private Context context;
+    private List<DailyDatum> dailyDataList;
 
+    // Can use this constructor or one below
+    public DailyAdapter(List<DailyDatum> dailyDataList) {
+        this.dailyDataList = dailyDataList;
+    }
 
-
-    public DailyAdapter(List<DailyDatum> weatherUrls) {
-        this.weatherUrls_D = weatherUrls;
+    // Can use this Constructor or one above
+    public DailyAdapter(Daily daily) {
+        this.dailyDataList = daily.getData();
     }
 
     @NonNull
     @Override
-    public weatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DailyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(
-                R.layout.daily_item,
-                parent,
-                false);
-
-        return new weatherViewHolder(view);
+        View theView = LayoutInflater.from(context).inflate(R.layout.daily_item, parent, false);
+        return new DailyViewHolder(theView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull weatherViewHolder holder, int position) {
-        DailyDatum dailyForcast = weatherUrls_D.get(position);
-
-        double high = dailyForcast.getTemperatureHigh();
-        holder.dailyHigh.setText(String.valueOf(high));
-        double low = dailyForcast.getTemperatureLow();
-        holder.dailyLow.setText(String.valueOf(low));
-        double w_time = dailyForcast.getTime();
-        holder.dailyTime.setText(String.valueOf(w_time));
-
-
-
-        DailyDatum weatherUrls = weatherUrls_D.get(position);
-        Glide.with(context)
-                .load(weatherUrls)
-                .into(holder.dailyView);
+    public void onBindViewHolder(@NonNull DailyViewHolder holder, int position) {
+        DailyDatum data = dailyDataList.get(position);
+        holder.setDailyWeather(data);
     }
 
     @Override
     public int getItemCount() {
-        return weatherUrls_D.size();
+        return dailyDataList.size();
     }
 
-    class weatherViewHolder extends RecyclerView.ViewHolder{
-       ImageView dailyView;
-       TextView dailyHigh,dailyLow,dailyTime;
+    class DailyViewHolder extends RecyclerView.ViewHolder {
+        private MaterialTextView dailyTime, dailyHigh, dailyLow;
+        private ImageView ivWeatherIcon;
 
-        public weatherViewHolder(@NonNull View itemView) {
+        DailyViewHolder(@NonNull View itemView) {
             super(itemView);
-             dailyView = itemView.findViewById(R.id.ivWeatherIcon);
-             dailyHigh = itemView.findViewById(R.id.tvHigh);
-             dailyLow = itemView.findViewById(R.id.tvLow);
-             dailyTime = itemView.findViewById(R.id.tvTime);
+            dailyTime = itemView.findViewById(R.id.tvTime);
+            dailyHigh = itemView.findViewById(R.id.tvHigh);
+            dailyLow = itemView.findViewById(R.id.tvLow);
+            ivWeatherIcon = itemView.findViewById(R.id.ivWeatherIcon);
+        }
+
+        void setDailyWeather(DailyDatum data) {
+            String high = getRoundedTemp(data.getTemperatureHigh());
+            String low = getRoundedTemp(data.getTemperatureLow());
+
+            dailyHigh.setText(high);
+            dailyLow.setText(low);
 
         }
-    }
 
+        String getRoundedTemp(Double temp) {
+            return String.valueOf(Math.round(temp));
+        }
+    }
 }

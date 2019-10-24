@@ -10,55 +10,57 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.weatherwoo.R;
-import com.example.weatherwoo.model.Hourly;
 import com.example.weatherwoo.model.HourlyDatum;
 
-public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.weatherViewHolder> {
-    private Hourly weatherUrls_H;
+import java.util.List;
+
+public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.hourlyViewHolder> {
     private Context context;
+    private List<HourlyDatum> hourlyDataList;
 
-
-    public HourlyAdapter(Hourly weatherUrls) {
-        this.weatherUrls_H = weatherUrls;
+    // Can use this constructor or one below
+    public HourlyAdapter(List<HourlyDatum> hourlyDataList) {
+        this.hourlyDataList = hourlyDataList;
     }
+
 
     @NonNull
     @Override
-    public HourlyAdapter.weatherViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public hourlyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View view = LayoutInflater.from(context).inflate(
-                R.layout.daily_item,
-                parent,
-                false);
-
-        return new HourlyAdapter.weatherViewHolder(view);
+        View View = LayoutInflater.from(context).inflate(R.layout.daily_item, parent, false);
+        return new hourlyViewHolder(View);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull weatherViewHolder holder, int position) {
-        HourlyDatum weatherUrls = weatherUrls_H.getData().get(position);
-        Glide.with(context)
-                .load(weatherUrls)
-                .into(holder.dailyView);
+    public void onBindViewHolder(@NonNull hourlyViewHolder holder, int position) {
+        HourlyDatum data = hourlyDataList.get(position);
+
+        holder.setHourlyWeather(data);
     }
 
     @Override
-    public int getItemCount() {
-        return weatherUrls_H.getData().size();
-    }
+    public int getItemCount() { return hourlyDataList.size(); }
 
-    class weatherViewHolder extends RecyclerView.ViewHolder{
-        ImageView dailyView;
-        TextView dailyTemp,dailyTime;
 
-        public weatherViewHolder(@NonNull View itemView) {
+    class hourlyViewHolder extends RecyclerView.ViewHolder{
+        ImageView hourlyView;
+        TextView hourlyTemp,hourlyTime;
+
+        public hourlyViewHolder(@NonNull View itemView) {
             super(itemView);
-            dailyView = itemView.findViewById(R.id.ivWeatherIcon);
-            dailyTemp = itemView.findViewById(R.id.tv_temp);
-            dailyTime = itemView.findViewById(R.id.tvTime);
+            hourlyView = itemView.findViewById(R.id.ivWeatherIcon);
+            hourlyTemp = itemView.findViewById(R.id.tv_temp);
+            hourlyTime = itemView.findViewById(R.id.tvTime);
 
         }
+
+       void setHourlyWeather(HourlyDatum data) {
+            String temperature = getRoundedTemp(data.getTemperature());
+            hourlyTemp.setText(temperature);
+        }
+        String getRoundedTemp(Double temp) { return String.valueOf(Math.round(temp)); }
     }
-}
+  }
+
