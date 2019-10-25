@@ -29,7 +29,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
 
     private static final String LATITUDE = "37.3382";
-    private static final String LONGITUDE = "121.8863";
+    private static final String LONGITUDE = "-121.8863";
 
     // Declaring variables
     private MainViewModel viewModel;
@@ -95,8 +95,8 @@ public class MainActivity extends AppCompatActivity {
     private void loadCurrently(Currently currently) {
         // TODO: 10/23/2019 Pass data into views
         WeatherResponse weatherResponse = new WeatherResponse();
-
-        String temp = currently.getTemperature().toString() + "\u00B0";
+        long tempRound = Math.round(currently.getTemperature());
+        String temp = tempRound + "\u00B0";
 
         tvTmp.setText(temp);
 

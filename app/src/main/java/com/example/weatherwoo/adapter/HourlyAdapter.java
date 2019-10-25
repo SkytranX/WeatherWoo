@@ -13,28 +13,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weatherwoo.R;
 import com.example.weatherwoo.model.HourlyDatum;
 
+import java.sql.Time;
 import java.util.List;
 
-public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.hourlyViewHolder> {
+public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyViewHolder> {
     private Context context;
     private List<HourlyDatum> hourlyDataList;
 
     // Can use this constructor or one below
-    public HourlyAdapter(List<HourlyDatum> hourlyDataList) {
-        this.hourlyDataList = hourlyDataList;
-    }
+
+    public HourlyAdapter(List<HourlyDatum> hourlyDatumList){this.hourlyDataList = hourlyDatumList;}
 
 
     @NonNull
     @Override
-    public hourlyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HourlyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
-        View View = LayoutInflater.from(context).inflate(R.layout.daily_item, parent, false);
-        return new hourlyViewHolder(View);
+        View View = LayoutInflater.from(context).inflate(R.layout.hourly_item, parent, false);
+        return new HourlyViewHolder(View);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull hourlyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull HourlyViewHolder holder, int position) {
         HourlyDatum data = hourlyDataList.get(position);
 
         holder.setHourlyWeather(data);
@@ -44,21 +44,26 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.hourlyView
     public int getItemCount() { return hourlyDataList.size(); }
 
 
-    class hourlyViewHolder extends RecyclerView.ViewHolder{
-        ImageView hourlyView;
-        TextView hourlyTemp,hourlyTime;
+    class HourlyViewHolder extends RecyclerView.ViewHolder{
+        private ImageView hourlyView;
+        private TextView hourlyTemp,hourlyTime;
 
-        public hourlyViewHolder(@NonNull View itemView) {
+        public HourlyViewHolder(@NonNull View itemView) {
             super(itemView);
             hourlyView = itemView.findViewById(R.id.ivWeatherIcon);
             hourlyTemp = itemView.findViewById(R.id.tv_temp);
             hourlyTime = itemView.findViewById(R.id.tvTime);
+
 
         }
 
        void setHourlyWeather(HourlyDatum data) {
             String temperature = getRoundedTemp(data.getTemperature());
             hourlyTemp.setText(temperature);
+           Time time = new Time(data.getTime());
+           String actualTime = String.format("%tI:%tM:%tS %Tp", time.getTime(),time.getTime(),time.getTime(),time.getTime());
+           hourlyTime.setText(actualTime);
+
         }
         String getRoundedTemp(Double temp) { return String.valueOf(Math.round(temp)); }
     }

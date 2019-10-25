@@ -16,6 +16,7 @@ import com.example.weatherwoo.model.Daily;
 import com.example.weatherwoo.model.DailyDatum;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.sql.Time;
 import java.util.List;
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHolder> {
@@ -70,6 +71,9 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
 
             dailyHigh.setText(high);
             dailyLow.setText(low);
+            Time time = new Time(data.getTime());
+            String actualTime = String.format("%tm/%td/%ty",time.getTime(),time.getTime(),time.getTime());
+            dailyTime.setText(actualTime);
 
         }
 
