@@ -1,6 +1,8 @@
 
 package com.example.weatherwoo.model;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -218,4 +220,28 @@ public class Currently {
         this.ozone = ozone;
     }
 
+    @Override
+    public String toString() {
+        return "Currently{" +
+                "time=" + time +
+                ", summary='" + summary + '\'' +
+                ", icon='" + icon + '\'' +
+                ", nearestStormDistance=" + nearestStormDistance +
+                ", nearestStormBearing=" + nearestStormBearing +
+                ", precipIntensity=" + precipIntensity +
+                ", precipProbability=" + precipProbability +
+                ", temperature=" + temperature +
+                ", apparentTemperature=" + apparentTemperature +
+                ", dewPoint=" + dewPoint +
+                ", humidity=" + humidity +
+                ", pressure=" + pressure +
+                ", windSpeed=" + windSpeed +
+                ", windGust=" + windGust +
+                ", windBearing=" + windBearing +
+                ", cloudCover=" + cloudCover +
+                ", uvIndex=" + uvIndex +
+                ", visibility=" + visibility +
+                ", ozone=" + ozone +
+                '}';
+    }
 }

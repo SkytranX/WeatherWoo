@@ -1,6 +1,7 @@
 package com.example.weatherwoo.adapter;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,12 @@ import com.example.weatherwoo.model.DailyDatum;
 import com.google.android.material.textview.MaterialTextView;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHolder> {
 
@@ -66,15 +72,35 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
         }
 
         void setDailyWeather(DailyDatum data) {
+            String day = getDayOfWeek(data.getTime());
             String high = getRoundedTemp(data.getTemperatureHigh());
             String low = getRoundedTemp(data.getTemperatureLow());
 
-            dailyHigh.setText(high);
-            dailyLow.setText(low);
-            Time time = new Time(data.getTime());
-            String actualTime = String.format("%tm/%td/%ty",time.getTime(),time.getTime(),time.getTime());
-            dailyTime.setText(actualTime);
+            dailyHigh.setText(high+ "\u00B0");
+            dailyLow.setText(low+ "\u00B0");
+            dailyTime.setText(day);
 
+
+//            Date date = new Date(data.getTime());
+//            String actualTime = String.format(" %tA",date.getTime());
+//            dailyTime.setText(actualTime);
+
+        }
+
+        /**
+         *this method will convert long into current day in the week
+         * @param time takes a long type
+         * @return string
+         */
+        String getDayOfWeek (long time) {
+            //INstance Calendar
+            Calendar calendar = Calendar.getInstance();
+            //set time params
+            calendar.setTimeInMillis(time * 1000);
+           // using format to extract the current day of the week
+            String ans = DateFormat.format("EEEE",calendar).toString();
+
+            return ans;
         }
 
         String getRoundedTemp(Double temp) {

@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
@@ -22,15 +23,20 @@ import com.example.weatherwoo.model.Hourly;
 import com.example.weatherwoo.model.WeatherResponse;
 import com.example.weatherwoo.viewmodel.MainViewModel;
 
+import java.text.DateFormat;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static final String LATITUDE = "37.3382";
-    private static final String LONGITUDE = "-121.8863";
-
+//    private static final String LATITUDE = "37.3382";
+//    private static final String LONGITUDE = "-121.8863";
+//    private static final String LATITUDE = "40.730610";
+//    private static final String LONGITUDE = "-73.935242";
+    private static final String LATITUDE = "66.160507";
+    private static final String LONGITUDE = "-153.369141";
     // Declaring variables
     private MainViewModel viewModel;
     private RecyclerView rvHourly, rvDaily;
@@ -75,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
                         WeatherResponse weatherResponse = response.body();
                         if (weatherResponse != null) {
                             // Load Currently
-                            loadCurrently(weatherResponse.getCurrently());
+                            loadCurrently(weatherResponse);
                             // TODO: 10/23/2019
                             // Load Hourly
                             loadHourly(weatherResponse.getHourly());
@@ -92,16 +98,33 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    private void loadCurrently(Currently currently) {
+    private static final String TAG = "MainActivity";
+    private void loadCurrently(WeatherResponse weather) {
         // TODO: 10/23/2019 Pass data into views
-        WeatherResponse weatherResponse = new WeatherResponse();
+        Currently currently = weather.getCurrently();
         long tempRound = Math.round(currently.getTemperature());
         String temp = tempRound + "\u00B0";
-
+       // String s = weather.getTimezone();
         tvTmp.setText(temp);
-
         tvforcast.setText(currently.getSummary());
-        tvLocation.setText(weatherResponse.getTimezone());
+        String name = weather.getTimezone();
+        Log.e(TAG, name);
+
+            String[] spliLoc = name.split("/");
+            Log.e(TAG, spliLoc[1]);
+            String space = spliLoc[1].replace("_", " ");
+            tvLocation.setText(space);
+
+//            String[] spaceLoc = space.split("_",2);
+//            String location = spaceLoc[0]+" "+spaceLoc[1];
+//            Log.e(TAG, location);
+
+       // Log.d(TAG, "loadCurrently: " + currently.toString());
+        //Toast.makeText(this, s, Toast.LENGTH_SHORT).show();
+//        TimeZone zone = TimeZone.getTimeZone("America/New_York");
+//        DateFormat format = DateFormat.getDateTimeInstance();
+//        format.setTimeZone(zone);
+
     }
 
     private void loadHourly(Hourly hourly) {

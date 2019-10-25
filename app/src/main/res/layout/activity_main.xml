@@ -21,13 +21,15 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorDark">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_city"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="28sp"
+                android:textColor="@color/colorlighter"
                 app:layout_constraintBottom_toTopOf="@id/tv_forecast"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -40,6 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="18sp"
+                android:textColor="@color/colorlighter"
                 app:layout_constraintBottom_toTopOf="@id/tv_temp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -51,6 +54,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="80sp"
+                android:textColor="@color/colorlighter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +84,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/divider_1"
         app:layout_constraintVertical_bias="0"
-        tools:listitem="@layout/hourly_item" />
+        tools:listitem="@layout/hourly_item"
+        android:background="@color/colorDark"/>
 
     <View
         android:id="@+id/divider_2"
@@ -94,6 +99,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:orientation="vertical"
+        android:background="@color/colorDark"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

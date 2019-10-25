@@ -30,18 +30,24 @@
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Tuesday" />
+        tools:text="Tuesday"
+        android:textColor="@color/colorlighter"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvHigh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:textColor="@color/colorlighter"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias=".8"
+        app:layout_constraintHorizontal_bias="0.681"
         app:layout_constraintStart_toEndOf="@id/ivWeatherIcon"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.488"
         tools:text="84" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -54,6 +60,8 @@
         app:layout_constraintHorizontal_bias="1"
         app:layout_constraintStart_toEndOf="@id/ivWeatherIcon"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="61" />
+        tools:text="61"
+        android:textColor="@color/colorlighter"
+        android:textSize="20sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

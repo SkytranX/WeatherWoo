@@ -15,7 +15,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Now" />
+        tools:text="Now"
+        android:textColor="@color/colorlighter"/>
 
     <ImageView
         android:id="@+id/ivWeatherIcon"
@@ -32,13 +33,15 @@
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tv_temp"
-        android:layout_width="15dp"
-        android:layout_height="10dp"
+        android:layout_width="25dp"
+        android:layout_height="20dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/ivWeatherIcon"
-        tools:text="61\u00B0" />
+        tools:text="61\u00B0"
+        android:textColor="@color/colorlighter"
+        android:textSize="15sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
