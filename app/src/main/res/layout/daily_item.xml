@@ -13,7 +13,7 @@
         android:id="@+id/ivWeatherIcon"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorDark"
         android:contentDescription="@string/forecast_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

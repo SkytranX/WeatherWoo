@@ -1,4 +1,4 @@
-package com.example.weatherwoo.view;
+package com.example.weatherwoo.view.mainactivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,13 +7,11 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.icu.util.TimeZone;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.load.model.ModelLoader;
 import com.example.weatherwoo.R;
 import com.example.weatherwoo.adapter.DailyAdapter;
 import com.example.weatherwoo.adapter.HourlyAdapter;
@@ -23,8 +21,6 @@ import com.example.weatherwoo.model.Hourly;
 import com.example.weatherwoo.model.WeatherResponse;
 import com.example.weatherwoo.viewmodel.MainViewModel;
 
-import java.text.DateFormat;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -33,14 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
 //    private static final String LATITUDE = "37.3382";
 //    private static final String LONGITUDE = "-121.8863";
-//    private static final String LATITUDE = "40.730610";
-//    private static final String LONGITUDE = "-73.935242";
-    private static final String LATITUDE = "66.160507";
-    private static final String LONGITUDE = "-153.369141";
+    private static final String LATITUDE = "40.730610";
+    private static final String LONGITUDE = "-73.935242";
+//    private static final String LATITUDE = "66.160507";
+//    private static final String LONGITUDE = "-153.369141";
     // Declaring variables
     private MainViewModel viewModel;
     private RecyclerView rvHourly, rvDaily;
-    private TextView tvTmp,tvforcast,tvLocation;
+    private TextView tvTemp, tvForcast,tvLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,8 +48,8 @@ public class MainActivity extends AppCompatActivity {
         setupHourlyRecyclerView();
         rvDaily = findViewById(R.id.rv_daily);
         setupDailyRecyclerView();
-        tvforcast = findViewById(R.id.tv_forecast);
-        tvTmp = findViewById(R.id.tv_temp);
+        tvForcast = findViewById(R.id.tv_forecast);
+        tvTemp = findViewById(R.id.tv_temp);
         tvLocation = findViewById(R.id.tv_city);
 
         loadWeather();
@@ -99,20 +95,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private static final String TAG = "MainActivity";
+
     private void loadCurrently(WeatherResponse weather) {
         // TODO: 10/23/2019 Pass data into views
         Currently currently = weather.getCurrently();
         long tempRound = Math.round(currently.getTemperature());
         String temp = tempRound + "\u00B0";
        // String s = weather.getTimezone();
-        tvTmp.setText(temp);
-        tvforcast.setText(currently.getSummary());
+        tvTemp.setText(temp);
+        tvForcast.setText(currently.getSummary());
         String name = weather.getTimezone();
         Log.e(TAG, name);
+
+
 
             String[] spliLoc = name.split("/");
             Log.e(TAG, spliLoc[1]);
             String space = spliLoc[1].replace("_", " ");
+
             tvLocation.setText(space);
 
 //            String[] spaceLoc = space.split("_",2);

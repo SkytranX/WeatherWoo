@@ -24,7 +24,7 @@
         android:layout_height="50dp"
         android:layout_marginTop="3dp"
         android:layout_marginBottom="3dp"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/colorDark"
         android:contentDescription="@string/forecast_icon"
         app:layout_constraintBottom_toTopOf="@id/tv_temp"
         app:layout_constraintEnd_toEndOf="@id/tvTime"

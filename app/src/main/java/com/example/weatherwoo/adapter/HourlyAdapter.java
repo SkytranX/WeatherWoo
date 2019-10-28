@@ -1,7 +1,8 @@
 package com.example.weatherwoo.adapter;
 
 import android.content.Context;
-import android.util.Log;
+import android.text.format.DateFormat;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +13,17 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.weatherwoo.R;
+import com.example.weatherwoo.commons.WeatherUtils;
+import com.example.weatherwoo.model.Hourly;
 import com.example.weatherwoo.model.HourlyDatum;
 
 import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
+import java.util.Locale;
 
 public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyViewHolder> {
     private Context context;
@@ -26,7 +31,9 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
 
     // Can use this constructor or one below
 
-    public HourlyAdapter(List<HourlyDatum> hourlyDatumList){this.hourlyDataList = hourlyDatumList;}
+    public HourlyAdapter(List<HourlyDatum> hourlyDatumList) {
+        this.hourlyDataList = hourlyDatumList;
+    }
 
 
     @NonNull
@@ -40,17 +47,23 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
     @Override
     public void onBindViewHolder(@NonNull HourlyViewHolder holder, int position) {
         HourlyDatum data = hourlyDataList.get(position);
-
         holder.setHourlyWeather(data);
+
+        int icon = WeatherUtils.getWeatherIcon(data.getIcon());
+
+
+        Glide.with(context).load(icon).into(holder.hourlyView);
     }
 
     @Override
-    public int getItemCount() { return hourlyDataList.size(); }
+    public int getItemCount() {
+        return hourlyDataList.size();
+    }
 
 
-    class HourlyViewHolder extends RecyclerView.ViewHolder{
+    class HourlyViewHolder extends RecyclerView.ViewHolder {
         private ImageView hourlyView;
-        private TextView hourlyTemp,hourlyTime;
+        private TextView hourlyTemp, hourlyTime;
 
         public HourlyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -61,18 +74,36 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
 
         }
 
-       void setHourlyWeather(HourlyDatum data) {
+        void setHourlyWeather(HourlyDatum data) {
+
             String temperature = getRoundedTemp(data.getTemperature());
-         //  Toast.makeText(context, temperature, Toast.LENGTH_SHORT).show();
-
+            //  Toast.makeText(context, temperature, Toast.LENGTH_SHORT).show();
+            //  Log.e(data.getIcon(), "setHourlyWeather: " );
             hourlyTemp.setText(temperature + "\u00B0");
-           Time time = new Time(data.getTime());
-           String actualTime = String.format("%tI:%tM:%tS %Tp", time.getTime(),time.getTime(),time.getTime(),time.getTime());
-           hourlyTime.setText(actualTime);
-//           Log.e(temperature, "setHourlyWeather: " );
 
+            //Option #1
+            //String hour = getHourOfDay(data.getTime());
+            //hourlyTime.setText(hour);
+
+
+            //Option #2
+            long a_time = data.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("ha", Locale.getDefault());
+            String hourly_Time = sdf.format(a_time * 1000);
+            hourlyTime.setText(hourly_Time);
 
         }
+
+        String getHourOfDay(long time) {
+            //INstance Calendar
+            Calendar calendar = Calendar.getInstance();
+            //set time params
+            calendar.setTimeInMillis(time * 1000);
+            // using format to extract the current day of the week
+            String ans = DateFormat.format("h:mm a", calendar).toString();
+            return ans;
+        }
+
         String getRoundedTemp(Double temp) {
 
        /*     Log.e( "setHourlyWeather: ", ""+temp );
@@ -80,6 +111,7 @@ public class HourlyAdapter extends RecyclerView.Adapter<HourlyAdapter.HourlyView
             Log.e( "setHourlyWeather: ", String.valueOf(Math.round(temp)) );*/
             return String.valueOf(Math.round(temp));
         }
+
     }
-  }
+}
 

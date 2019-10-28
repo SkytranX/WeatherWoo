@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.weatherwoo.R;
+import com.example.weatherwoo.commons.WeatherUtils;
 import com.example.weatherwoo.model.Daily;
 import com.example.weatherwoo.model.DailyDatum;
 import com.google.android.material.textview.MaterialTextView;
@@ -23,12 +24,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.SimpleTimeZone;
 import java.util.TimeZone;
 
 public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHolder> {
 
     private Context context;
     private List<DailyDatum> dailyDataList;
+
 
     // Can use this constructor or one below
     public DailyAdapter(List<DailyDatum> dailyDataList) {
@@ -52,6 +55,12 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
     public void onBindViewHolder(@NonNull DailyViewHolder holder, int position) {
         DailyDatum data = dailyDataList.get(position);
         holder.setDailyWeather(data);
+
+        int icon = WeatherUtils.getWeatherIcon(data.getIcon());
+
+
+        Glide.with(context).load(icon).into(holder.ivWeatherIcon);
+
     }
 
     @Override
@@ -99,7 +108,6 @@ public class DailyAdapter extends RecyclerView.Adapter<DailyAdapter.DailyViewHol
             calendar.setTimeInMillis(time * 1000);
            // using format to extract the current day of the week
             String ans = DateFormat.format("EEEE",calendar).toString();
-
             return ans;
         }
 

@@ -6,13 +6,23 @@ public class WeatherUtils {
 
     public static int getWeatherIcon(String icon){
         switch (icon) {
-            case "clear_day":
-                return 0;
+            case "clear-day":
+                return R.drawable.sun;
+            case "clear-night":
+                return R.drawable.moon;
+            case "partly-cloudy-night":
+                return R.drawable.partly_cloudy_night;
+            case "partly-cloudy-day":
+                return R.drawable.partly_cloudy;
+            case "fog":
+                return R.drawable.dust;
             case "cloudy":
-                return 1;
+                return R.drawable.clouds;
+            case "rain":
+                return R.drawable.rain;
 
             default:
-                return R.drawable.ic_launcher_background;
+                return R.drawable.sunny;
         }
     }
 }
